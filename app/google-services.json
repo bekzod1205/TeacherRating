@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "710664978660",
+    "firebase_url": "https://teacherratings-26feb-default-rtdb.firebaseio.com",
+    "project_id": "teacherratings-26feb",
+    "storage_bucket": "teacherratings-26feb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710664978660:android:95fb9403e4ac4b55dd2cf1",
+        "android_client_info": {
+          "package_name": "com.example.teacherratings"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnLeJeQ5O9MnCiIhfLqYgo5hUqyouAFtk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
