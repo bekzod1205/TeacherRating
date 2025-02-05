@@ -28,8 +28,6 @@ class MainActivity : ComponentActivity() {
 //                    Teacher("T008", "Naseer Abdul Rahim", "Software Engineering"),
 //                )
 //                val students = listOf(
-//                    Student("U2410302", "Bekzod_1205"),
-//                    Student("U2410224", "\$Rodopi22311#"),
 //                    Student("U001", "admin1234"),
 //                    Student("U002", "admin1234"),
 //                    Student("U003", "admin1234"),
