@@ -79,12 +79,6 @@ class Rate : ComponentActivity() {
                     var teacher by remember {
                         mutableStateOf(Teacher())
                     }
-                    var comments by remember{
-                        mutableStateOf<List<Comments>>(emptyList())
-                    }
-                    Database.getComment {
-                        comments = it
-                    }
 
                     if (teacherId != null) {
                         Database.getTeacher(teacherId) {
@@ -132,7 +126,6 @@ class Rate : ComponentActivity() {
                                     )
                                         .show()
                                     Database.setRating(Rating(studentId, teacherId, rating1))
-
                                     finish()
                                 }
                             }) {
@@ -147,16 +140,34 @@ class Rate : ComponentActivity() {
                         }, text = "Read comments", color = b)
 
                         if (isSheetOpen) {
+                            var comments by remember {
+                                mutableStateOf<List<Comments>>(emptyList())
+                            }
+                            Database.getComment {
+                                comments = it
+                            }
+                            val comments1 = remember {
+                                mutableListOf<Comments>()
+                            }
+                            comments1.addAll(comments)
                             ModalBottomSheet(
                                 sheetState = sheetState,
                                 onDismissRequest = {
                                     isSheetOpen = false
+                                    comments1.clear()
                                 },
                             ) {
-                                Column(modifier = Modifier.height(200.dp).padding(horizontal = 18.dp)) {
+                                Column(
+                                    modifier = Modifier
+                                        .height(200.dp)
+                                        .padding(horizontal = 18.dp)
+                                ) {
                                     LazyColumn() {
-                                        items(comments.filter { it.to == teacherId }){
-                                            Row(modifier = Modifier.padding(bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                        items(comments1.filter { it.to == teacherId }) {
+                                            Row(
+                                                modifier = Modifier.padding(bottom = 10.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
                                                 Icon(
                                                     modifier = Modifier.size(50.dp),
                                                     imageVector = Icons.Filled.AccountCircle,
@@ -164,7 +175,12 @@ class Rate : ComponentActivity() {
                                                     tint = b
                                                 )
                                                 Column(modifier = Modifier.padding(start = 10.dp)) {
-                                                    it.from?.let { it1 -> Text(text = it1, fontWeight = FontWeight.Bold) }
+                                                    it.from?.let { it1 ->
+                                                        Text(
+                                                            text = it1,
+                                                            fontWeight = FontWeight.Bold
+                                                        )
+                                                    }
                                                     it.comment?.let { it1 -> Text(it1) }
                                                 }
                                             }
@@ -180,10 +196,24 @@ class Rate : ComponentActivity() {
                                     value = comment,
                                     onValueChange = { comment = it },
                                     trailingIcon = {
-                                        Icon(modifier = Modifier.clickable {
-                                            Database.sendComment(Comments(studentId,teacherId, comment))
-                                            comment = ""
-                                        },
+                                        Icon(
+                                            modifier = Modifier.clickable {
+                                                Database.sendComment(
+                                                    Comments(
+                                                        studentId,
+                                                        teacherId,
+                                                        comment
+                                                    )
+                                                )
+                                                comments1.add(
+                                                    Comments(
+                                                        studentId,
+                                                        teacherId,
+                                                        comment
+                                                    )
+                                                )
+                                                comment = ""
+                                            },
                                             imageVector = Icons.Filled.ArrowCircleUp,
                                             contentDescription = "Search Icon"
                                         )
